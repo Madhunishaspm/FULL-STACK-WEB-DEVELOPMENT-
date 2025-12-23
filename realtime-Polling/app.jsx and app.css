@@ -1,0 +1,130 @@
+
+App.jsx
+import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [votes, setVotes] = useState({
+    React: 0,
+    Angular: 0,
+    Vue: 0,
+  });
+
+  const [hasVoted, setHasVoted] = useState(false);
+
+  const totalVotes = votes.React + votes.Angular + votes.Vue;
+
+  const handleVote = (option) => {
+    if (!hasVoted) {
+      setVotes({
+        ...votes,
+        [option]: votes[option] + 1,
+      });
+      setHasVoted(true); // restrict to one vote
+    }
+  };
+
+  return (
+    <div className="poll-container">
+      <h1 className="title">📊 Classroom Poll</h1>
+      <h3 className="question">
+        Which JavaScript framework do you prefer?
+      </h3>
+
+      <button disabled={hasVoted} onClick={() => handleVote("React")}>
+        React
+      </button>
+      <button disabled={hasVoted} onClick={() => handleVote("Angular")}>
+        Angular
+      </button>
+      <button disabled={hasVoted} onClick={() => handleVote("Vue")}>
+        Vue
+      </button>
+
+      {hasVoted && (
+        <div className="results">
+          <p>React Votes: {votes.React}</p>
+          <p>Angular Votes: {votes.Angular}</p>
+          <p>Vue Votes: {votes.Vue}</p>
+
+          <h4 className="total">🧮 Total Votes: {totalVotes}</h4>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+       app.css
+
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #d9a7c7, #fffcdc);
+}
+
+/* Main Card */
+.poll-container {
+  width: 450px;
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  text-align: center;
+  font-family: "Trebuchet MS", sans-serif;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Title */
+.title {
+  font-family: "Georgia", serif;
+  color: #6a1b9a;
+}
+
+/* Question */
+.question {
+  color: #0d47a1;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  font-size: 16px;
+  background-color: #26a69a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #00796b;
+}
+
+button:disabled {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
+/* Results */
+.results {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #37474f;
+}
+
+.total {
+  margin-top: 10px;
+  color: #c62828;
+  font-weight: bold;
+}
+
+
+
