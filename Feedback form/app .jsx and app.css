@@ -1,0 +1,158 @@
+import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [formData, setFormData] = useState({
+    name: "",
+    rating: "",
+    comment: "",
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+  };
+
+  return (
+    <div className="container">
+      <div className="form-card">
+        <h1>💬 Feedback Form</h1>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Name"
+            required
+            onChange={handleChange}
+          />
+
+          <select name="rating" required onChange={handleChange}>
+            <option value="">Rate Us</option>
+            <option>⭐ Excellent</option>
+            <option>⭐⭐ Good</option>
+            <option>⭐⭐⭐ Average</option>
+            <option>⭐⭐⭐⭐ Poor</option>
+          </select>
+
+          <textarea
+            name="comment"
+            placeholder="Your Feedback"
+            required
+            onChange={handleChange}
+          ></textarea>
+
+          <button type="submit">Submit Feedback</button>
+        </form>
+      </div>
+
+      {submitted && (
+        <div className="output-card">
+          <h2>📋 Submitted Feedback</h2>
+          <p><strong>Name:</strong> {formData.name}</p>
+          <p><strong>Rating:</strong> {formData.rating}</p>
+          <p><strong>Comment:</strong> {formData.comment}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+app.css
+       body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle at top, #ffecd2, #fcb69f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Container */
+.container {
+  display: flex;
+  gap: 35px;
+}
+
+/* Form Card */
+.form-card {
+  width: 360px;
+  background: linear-gradient(135deg, #1d2671, #c33764);
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.35);
+  color: white;
+}
+
+.form-card h1 {
+  text-align: center;
+  color: #ffeb3b;
+  margin-bottom: 15px;
+}
+
+/* Inputs */
+input, select, textarea {
+  width: 100%;
+  padding: 11px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+textarea {
+  resize: none;
+  height: 90px;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 13px;
+  background: linear-gradient(to right, #ff512f, #dd2476);
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+button:hover {
+  background: linear-gradient(to right, #dd2476, #ff512f);
+}
+
+/* Output Card */
+.output-card {
+  width: 360px;
+  background: linear-gradient(135deg, #fdfbfb, #ebedee);
+  padding: 28px;
+  border-radius: 18px;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.35);
+  color: #37474f;
+}
+
+.output-card h2 {
+  color: #6a1b9a;
+  margin-bottom: 12px;
+}
+
+.output-card p {
+  font-size: 15px;
+  margin: 8px 0;
+}
