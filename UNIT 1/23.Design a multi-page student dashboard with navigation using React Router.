@@ -1,0 +1,130 @@
+
+
+import React, { useState } from "react";
+import "./App.css";
+
+
+function App() {
+  const [page, setPage] = useState("dashboard");
+
+
+  return (
+    <div className="app">
+      <nav className="navbar">
+        <h2>Student Dashboard</h2>
+        <button onClick={() => setPage("dashboard")}>Dashboard</button>
+        <button onClick={() => setPage("students")}>Students</button>
+        <button onClick={() => setPage("profile")}>Profile</button>
+      </nav>
+
+
+      <div className="content">
+        {page === "dashboard" && (
+          <div className="card">
+            <h2>Dashboard</h2>
+            <p>Welcome Student 👋</p>
+            <p>Status: Active</p>
+          </div>
+        )}
+
+
+        {page === "students" && (
+          <div className="card">
+            <h2>Students</h2>
+            <ul>
+              <li>Anitha – BSc CS</li>
+              <li>Divya – BCA</li>
+              <li>Kavya – BSc IT</li>
+            </ul>
+          </div>
+        )}
+
+
+        {page === "profile" && (
+          <div className="card">
+            <h2>Profile</h2>
+            <p>Name: Student User</p>
+            <p>Department: Computer Science</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+export default App;
+
+
+2.app.css
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f6f9;
+}
+
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+
+.navbar {
+  width: 220px;
+  background-color: #2c3e50;
+  padding: 20px;
+}
+
+
+.navbar h2 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+
+.navbar button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #34495e;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+.navbar button:hover {
+  background-color: #1abc9c;
+}
+
+
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+
+.card {
+  background-color: white;
+  padding: 20px;
+  width: 350px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+
+.card ul {
+  list-style: none;
+  padding: 0;
+}
+
+
+.card li {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+
