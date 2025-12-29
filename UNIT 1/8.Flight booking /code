@@ -1,0 +1,116 @@
+1.import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [tasks, setTasks] = useState([]);
+  const [taskInput, setTaskInput] = useState("");
+
+  // Add task
+  const addTask = () => {
+    if (taskInput.trim() !== "") {
+      setTasks([...tasks, taskInput]);
+      setTaskInput("");
+    }
+  };
+
+  // Remove task
+  const removeTask = (index) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
+    setTasks(newTasks);
+  };
+
+  return (
+    <div className="app">
+      <h1>Task Dashboard</h1>
+      <div className="task-input">
+        <input
+          type="text"
+          placeholder="Enter a new task"
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+        />
+        <button onClick={addTask}>Add Task</button>
+      </div>
+
+      <ul className="task-list">
+        {tasks.map((task, index) => (
+          <li key={index}>
+            {task}
+            <button onClick={() => removeTask(index)}>Remove</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;
+
+
+2..app {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin-top: 50px;
+  background-color: #121212; /* Dark background */
+  color: #fff; /* White text */
+  min-height: 100vh;
+}
+
+.task-input input {
+  padding: 10px;
+  width: 250px;
+  margin-right: 10px;
+  border-radius: 5px;
+  border: 1px solid #444; /* Dark border */
+  background-color: #1e1e1e; /* Dark input background */
+  color: #fff; /* White text */
+}
+
+.task-input input::placeholder {
+  color: #bbb; /* Lighter placeholder */
+}
+
+.task-input button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff; /* Blue button */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-input button:hover {
+  background-color: #0056b3;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.task-list li {
+  display: flex;
+  justify-content: space-between;
+  background-color: #1e1e1e; /* Dark task background */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  color: #fff; /* Task text color */
+}
+
+.task-list li button {
+  background-color: #ff4d4d;
+  border: none;
+  padding: 5px 10px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.task-list li button:hover {
+  background-color: #cc0000;
+}
