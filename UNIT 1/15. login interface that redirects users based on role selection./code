@@ -1,0 +1,184 @@
+import React, { useState } from "react";
+import "./App.css";
+
+
+function App() {
+  const [loginData, setLoginData] = useState({ username: "", password: "", role: "" });
+  const [errors, setErrors] = useState({});
+  const [currentRole, setCurrentRole] = useState(""); // To simulate redirection
+
+
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+  };
+
+
+  // Validate form
+  const validate = () => {
+    let tempErrors = {};
+    if (!loginData.username) tempErrors.username = "Username is required.";
+    if (!loginData.password) tempErrors.password = "Password is required.";
+    if (!loginData.role) tempErrors.role = "Please select a role.";
+
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+
+  // Handle login
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      // Simulate role-based redirection
+      setCurrentRole(loginData.role);
+    }
+  };
+
+
+  // Simulated dashboards
+  const Dashboard = () => {
+    if (currentRole === "Admin") {
+      return <h2>Welcome Admin! You have full access.</h2>;
+    } else if (currentRole === "User") {
+      return <h2>Welcome User! You can access your dashboard.</h2>;
+    } else {
+      return null;
+    }
+  };
+
+
+  // If logged in, show dashboard
+  if (currentRole) {
+    return (
+      <div className="container">
+        <h1>Dashboard</h1>
+        <Dashboard />
+        <button className="logout-btn" onClick={() => setCurrentRole("")}>
+          Logout
+        </button>
+      </div>
+    );
+  }
+
+
+  return (
+    <div className="container">
+      <h1>Login</h1>
+      <form onSubmit={handleLogin} className="login-form">
+        <label>
+          Username:
+          <input type="text" name="username" value={loginData.username} onChange={handleChange} />
+          {errors.username && <span className="error">{errors.username}</span>}
+        </label>
+
+
+        <label>
+          Password:
+          <input type="password" name="password" value={loginData.password} onChange={handleChange} />
+          {errors.password && <span className="error">{errors.password}</span>}
+        </label>
+
+
+        <label>
+          Role:
+          <select name="role" value={loginData.role} onChange={handleChange}>
+            <option value="">-- Select Role --</option>
+            <option value="Admin">Admin</option>
+            <option value="User">User</option>
+          </select>
+          {errors.role && <span className="error">{errors.role}</span>}
+        </label>
+
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+}
+
+
+export default App;
+
+
+App.css
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+
+.container {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+  width: 400px;
+  text-align: center;
+}
+
+
+h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+
+.login-form label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+
+.login-form input,
+.login-form select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+
+.login-form .error {
+  color: red;
+  font-size: 0.85em;
+}
+
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+.logout-btn {
+  margin-top: 20px;
+  background-color: #dc3545;
+}
+
+
+.logout-btn:hover {
+  background-color: #a71d2a;
+}
