@@ -1,0 +1,123 @@
+import React, { useState } from "react";
+
+
+function App() {
+  const [bookingConfirmed, setBookingConfirmed] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState({});
+
+
+  const bookCab = () => {
+    // 1. Welcome message
+    alert("Welcome to QuickCab Booking!");
+
+
+    // 2. Get passenger name
+    const passengerName = prompt("Enter your name:");
+    if (!passengerName) {
+      alert("Booking cancelled. Name is required.");
+      return;
+    }
+
+
+    // 3. Pickup location
+    const pickupLocation = prompt("Enter pickup location:");
+    if (!pickupLocation) {
+      alert("Booking cancelled. Pickup location is required.");
+      return;
+    }
+
+
+    // 4. Drop location
+    const dropLocation = prompt("Enter drop location:");
+    if (!dropLocation) {
+      alert("Booking cancelled. Drop location is required.");
+      return;
+    }
+
+
+    // 5. Select cab type
+    const cabType = prompt("Enter cab type (Sedan, Hatchback, SUV):");
+    if (!cabType) {
+      alert("Booking cancelled. Cab type is required.");
+      return;
+    }
+
+
+    // 6. Enter number of passengers
+    const numPassengers = prompt("Enter number of passengers:");
+    if (!numPassengers || isNaN(numPassengers) || numPassengers <= 0) {
+      alert("Invalid number of passengers. Booking cancelled.");
+      return;
+    }
+
+
+    // 7. Confirm booking
+    const confirmBooking = window.confirm(
+      `Please confirm your booking:\n
+      Name: ${passengerName}\n
+      Pickup: ${pickupLocation}\n
+      Drop: ${dropLocation}\n
+      Cab Type: ${cabType}\n
+      Passengers: ${numPassengers}`
+    );
+
+
+    if (confirmBooking) {
+      setBookingConfirmed(true);
+      setBookingDetails({ passengerName, pickupLocation, dropLocation, cabType, numPassengers });
+      alert(`Thank you ${passengerName}! Your cab is booked successfully.`);
+    } else {
+      setBookingConfirmed(false);
+      alert("Booking cancelled.");
+    }
+  };
+
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <h1>Online Cab Booking</h1>
+
+
+      {!bookingConfirmed ? (
+        <button
+          onClick={bookCab}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Book Cab
+        </button>
+      ) : (
+        <div>
+          <h2>Booking Confirmed!</h2>
+          <p>
+            {bookingDetails.passengerName}, your {bookingDetails.cabType} cab from{" "}
+            {bookingDetails.pickupLocation} to {bookingDetails.dropLocation} for{" "}
+            {bookingDetails.numPassengers} passenger(s) is confirmed.
+          </p>
+          <button
+            onClick={() => setBookingConfirmed(false)}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#28a745",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Book Another Cab
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+export default App;
