@@ -1,0 +1,149 @@
+app.jsx
+import React, { useState } from "react";
+
+
+function App() {
+  const [passengerName, setPassengerName] = useState("");
+  const [departureCity, setDepartureCity] = useState("");
+  const [destinationCity, setDestinationCity] = useState("");
+  const [travelDate, setTravelDate] = useState("");
+  const [numTickets, setNumTickets] = useState(1);
+  const [confirmed, setConfirmed] = useState(false);
+
+
+  const handleBooking = () => {
+    // Simple validation
+    if (!passengerName || !departureCity || !destinationCity || !travelDate || numTickets <= 0) {
+      alert("Please fill all fields correctly.");
+      return;
+    }
+
+
+    // Mimic confirmation dialog
+    const isConfirmed = window.confirm(
+      `Please confirm your booking:\n
+      Name: ${passengerName}\n
+      From: ${departureCity}\n
+      To: ${destinationCity}\n
+      Date: ${travelDate}\n
+      Tickets: ${numTickets}`
+    );
+
+
+    if (isConfirmed) {
+      setConfirmed(true);
+      alert(`Thank you ${passengerName}! Your flight is confirmed.`);
+    } else {
+      setConfirmed(false);
+      alert("Booking cancelled.");
+    }
+  };
+
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <h1>Flight Ticket Booking</h1>
+
+
+      {!confirmed ? (
+        <div style={{ maxWidth: "400px" }}>
+          <label>
+            Name: <br />
+            <input
+              type="text"
+              value={passengerName}
+              onChange={(e) => setPassengerName(e.target.value)}
+              placeholder="Enter your name"
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+          </label>
+
+
+          <label>
+            Departure City: <br />
+            <input
+              type="text"
+              value={departureCity}
+              onChange={(e) => setDepartureCity(e.target.value)}
+              placeholder="From"
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+          </label>
+
+
+          <label>
+            Destination City: <br />
+            <input
+              type="text"
+              value={destinationCity}
+              onChange={(e) => setDestinationCity(e.target.value)}
+              placeholder="To"
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+          </label>
+
+
+          <label>
+            Travel Date: <br />
+            <input
+              type="date"
+              value={travelDate}
+              onChange={(e) => setTravelDate(e.target.value)}
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+          </label>
+
+
+          <label>
+            Number of Tickets: <br />
+            <input
+              type="number"
+              value={numTickets}
+              onChange={(e) => setNumTickets(Number(e.target.value))}
+              min={1}
+              style={{ width: "100%", marginBottom: "10px" }}
+            />
+          </label>
+
+
+          <button
+            onClick={handleBooking}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#007bff",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}
+          >
+            Book Flight
+          </button>
+        </div>
+      ) : (
+        <div>
+          <h2>Booking Confirmed!</h2>
+          <p>
+            {passengerName}, your flight from {departureCity} to {destinationCity} on {travelDate} for {numTickets} ticket(s) is confirmed.
+          </p>
+          <button
+            onClick={() => setConfirmed(false)}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#28a745",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer"
+            }}
+          >
+            Book Another Flight
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+export default App;
