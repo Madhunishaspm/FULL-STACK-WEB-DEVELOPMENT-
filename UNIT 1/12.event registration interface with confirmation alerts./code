@@ -1,0 +1,118 @@
+import React, { useState } from "react";
+
+
+function App() {
+  const [registrationConfirmed, setRegistrationConfirmed] = useState(false);
+  const [registrationDetails, setRegistrationDetails] = useState({});
+
+
+  const registerEvent = () => {
+    // 1. Welcome message
+    alert("Welcome to TechFest Event Registration!");
+
+
+    // 2. Get participant name
+    const participantName = prompt("Enter your name:");
+    if (!participantName) {
+      alert("Registration cancelled. Name is required.");
+      return;
+    }
+
+
+    // 3. Get email
+    const email = prompt("Enter your email:");
+    if (!email) {
+      alert("Registration cancelled. Email is required.");
+      return;
+    }
+
+
+    // 4. Select event type
+    const eventType = prompt("Enter event type (Workshop, Seminar, Competition):");
+    if (!eventType) {
+      alert("Registration cancelled. Event type is required.");
+      return;
+    }
+
+
+    // 5. Number of participants
+    const numParticipants = prompt("Enter number of participants:");
+    if (!numParticipants || isNaN(numParticipants) || numParticipants <= 0) {
+      alert("Invalid number of participants. Registration cancelled.");
+      return;
+    }
+
+
+    // 6. Confirm registration
+    const confirmRegistration = window.confirm(
+      `Please confirm your registration:\n
+      Name: ${participantName}\n
+      Email: ${email}\n
+      Event Type: ${eventType}\n
+      Participants: ${numParticipants}`
+    );
+
+
+    if (confirmRegistration) {
+      setRegistrationConfirmed(true);
+      setRegistrationDetails({ participantName, email, eventType, numParticipants });
+      alert(`Thank you ${participantName}! Your registration is confirmed.`);
+    } else {
+      setRegistrationConfirmed(false);
+      alert("Registration cancelled.");
+    }
+  };
+
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <h1>Event Registration</h1>
+
+
+      {!registrationConfirmed ? (
+        <button
+          onClick={registerEvent}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Register Now
+        </button>
+      ) : (
+        <div>
+          <h2>Registration Confirmed!</h2>
+          <p>
+            {registrationDetails.participantName}, you are registered for the {registrationDetails.eventType} event.
+          </p>
+          <p>Email: {registrationDetails.email}</p>
+          <p>Number of Participants: {registrationDetails.numParticipants}</p>
+          <button
+            onClick={() => setRegistrationConfirmed(false)}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#28a745",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Register Another
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+export default App;
+
+
+
+
