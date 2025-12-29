@@ -1,0 +1,173 @@
+import React, { useState } from "react";
+import "./App.css";
+
+
+function App() {
+  const [feedback, setFeedback] = useState({ name: "", rating: "", comments: "" });
+  const [errors, setErrors] = useState({});
+  const [submittedFeedback, setSubmittedFeedback] = useState(null);
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFeedback({ ...feedback, [name]: value });
+  };
+
+
+  const validate = () => {
+    let tempErrors = {};
+    if (!feedback.name) tempErrors.name = "Name is required.";
+    if (!feedback.rating) tempErrors.rating = "Rating is required.";
+    else if (feedback.rating < 1 || feedback.rating > 5) tempErrors.rating = "Rating must be between 1 and 5.";
+    if (!feedback.comments) tempErrors.comments = "Comments are required.";
+
+
+    setErrors(tempErrors);
+    return Object.keys(tempErrors).length === 0;
+  };
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validate()) {
+      setSubmittedFeedback(feedback);
+      alert("Thank you! Your feedback has been submitted.");
+      setFeedback({ name: "", rating: "", comments: "" });
+      setErrors({});
+    }
+  };
+
+
+  return (
+    <div className="container">
+      <h1>Student Feedback</h1>
+
+
+      <form onSubmit={handleSubmit} className="feedback-form">
+        <label>
+          Name:
+          <input type="text" name="name" value={feedback.name} onChange={handleChange} />
+          {errors.name && <span className="error">{errors.name}</span>}
+        </label>
+
+
+        <label>
+          Rating (1-5):
+          <input type="number" name="rating" value={feedback.rating} onChange={handleChange} min="1" max="5" />
+          {errors.rating && <span className="error">{errors.rating}</span>}
+        </label>
+
+
+        <label>
+          Comments:
+          <textarea name="comments" value={feedback.comments} onChange={handleChange} />
+          {errors.comments && <span className="error">{errors.comments}</span>}
+        </label>
+
+
+        <button type="submit">Submit Feedback</button>
+      </form>
+
+
+      {submittedFeedback && (
+        <div className="preview">
+          <h2>Submitted Feedback</h2>
+          <p><strong>Name:</strong> {submittedFeedback.name}</p>
+          <p><strong>Rating:</strong> {submittedFeedback.rating} / 5</p>
+          <p><strong>Comments:</strong> {submittedFeedback.comments}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+export default App;
+
+
+App.css
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+
+.container {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  width: 450px;
+}
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+
+.feedback-form label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+
+.feedback-form input,
+.feedback-form textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+
+.feedback-form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+
+.feedback-form .error {
+  color: red;
+  font-size: 0.85em;
+}
+
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+.preview {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #eef2f7;
+  border-radius: 5px;
+}
+
+
+.preview h2 {
+  margin-bottom: 10px;
+  color: #007bff;
+}
