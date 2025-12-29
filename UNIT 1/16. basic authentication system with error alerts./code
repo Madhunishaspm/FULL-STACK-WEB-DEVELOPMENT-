@@ -1,0 +1,179 @@
+import React, { useState } from "react";
+import "./App.css";
+
+
+function App() {
+  const [loginData, setLoginData] = useState({ username: "", password: "" });
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+
+  // Predefined credentials
+  const validCredentials = { username: "admin", password: "1234" };
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setLoginData({ ...loginData, [name]: value });
+  };
+
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const { username, password } = loginData;
+
+
+    if (!username || !password) {
+      alert("Please fill in both username and password!");
+      return;
+    }
+
+
+    if (username === validCredentials.username && password === validCredentials.password) {
+      setIsAuthenticated(true);
+      alert(`Welcome ${username}! You are successfully logged in.`);
+    } else {
+      alert("Invalid username or password. Please try again!");
+    }
+  };
+
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    setLoginData({ username: "", password: "" });
+    alert("You have been logged out.");
+  };
+
+
+  return (
+    <div className="container">
+      <h1>Basic Authentication</h1>
+
+
+      {!isAuthenticated ? (
+        <form onSubmit={handleLogin} className="login-form">
+          <label>
+            Username:
+            <input
+              type="text"
+              name="username"
+              value={loginData.username}
+              onChange={handleChange}
+            />
+          </label>
+
+
+          <label>
+            Password:
+            <input
+              type="password"
+              name="password"
+              value={loginData.password}
+              onChange={handleChange}
+            />
+          </label>
+
+
+          <button type="submit">Login</button>
+        </form>
+      ) : (
+        <div className="dashboard">
+          <h2>Welcome, {loginData.username}!</h2>
+          <p>You are logged in.</p>
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+export default App;
+
+
+
+
+
+
+
+
+App.css
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+
+.container {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+  width: 400px;
+  text-align: center;
+}
+
+
+h1 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+
+.login-form label {
+  display: block;
+  margin-bottom: 15px;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+}
+
+
+.login-form input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+.logout-btn {
+  background-color: #dc3545;
+}
+
+
+.logout-btn:hover {
+  background-color: #a71d2a;
+}
+
+
+.dashboard h2 {
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+
