@@ -1,0 +1,200 @@
+import React, { useState } from "react";
+import "./App.css";
+
+
+function App() {
+  const [notifications, setNotifications] = useState([]);
+  const [newNotification, setNewNotification] = useState("");
+
+
+  // Add new notification
+  const addNotification = () => {
+    if (newNotification.trim() === "") {
+      alert("Notification message cannot be empty!");
+      return;
+    }
+    const notification = {
+      id: Date.now(),
+      message: newNotification,
+      read: false,
+    };
+    setNotifications([notification, ...notifications]);
+    setNewNotification("");
+    alert("Notification added!");
+  };
+
+
+  // Mark notification as read
+  const markAsRead = (id) => {
+    setNotifications(
+      notifications.map((notif) =>
+        notif.id === id ? { ...notif, read: true } : notif
+      )
+    );
+  };
+
+
+  // Clear all notifications
+  const clearNotifications = () => {
+    if (window.confirm("Are you sure you want to clear all notifications?")) {
+      setNotifications([]);
+      alert("All notifications cleared!");
+    }
+  };
+
+
+  return (
+    <div className="container">
+      <h1>Dashboard Notifications</h1>
+
+
+      <div className="add-notification">
+        <input
+          type="text"
+          placeholder="Enter notification message..."
+          value={newNotification}
+          onChange={(e) => setNewNotification(e.target.value)}
+        />
+        <button onClick={addNotification}>Add Notification</button>
+      </div>
+
+
+      {notifications.length > 0 && (
+        <button className="clear-btn" onClick={clearNotifications}>
+          Clear All
+        </button>
+      )}
+
+
+      <div className="notification-list">
+        {notifications.length === 0 && <p>No notifications</p>}
+        {notifications.map((notif) => (
+          <div
+            key={notif.id}
+            className={`notification ${notif.read ? "read" : "unread"}`}
+          >
+            <span>{notif.message}</span>
+            {!notif.read && (
+              <button onClick={() => markAsRead(notif.id)}>Mark as Read</button>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+
+export default App;
+
+
+APP.CSS
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+}
+
+
+.container {
+  width: 500px;
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+}
+
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+
+.add-notification {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+
+.add-notification input {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+.add-notification button {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.add-notification button:hover {
+  background-color: #0056b3;
+}
+
+
+.clear-btn {
+  width: 100%;
+  padding: 8px 0;
+  margin-bottom: 20px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.clear-btn:hover {
+  background-color: #a71d2a;
+}
+
+
+.notification-list .notification {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #eef2f7;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+
+.notification.unread {
+  font-weight: bold;
+}
+
+
+.notification.read {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+
+.notification button {
+  padding: 5px 10px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+
+.notification button:hover {
+  background-color: #1e7e34;
+}
+
+
