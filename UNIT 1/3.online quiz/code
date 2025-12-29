@@ -1,0 +1,107 @@
+
+App.jsx
+import React, { useState } from "react";
+import "./App.css";
+
+function App() {
+  const questions = [
+    {
+      question: "What is React?",
+      options: ["Library", "Framework", "Language", "Database"],
+      answer: "Library",
+    },
+    {
+      question: "Which hook is used for state?",
+      options: ["useEffect", "useState", "useRef", "useContext"],
+      answer: "useState",
+    },
+    {
+      question: "React is developed by?",
+      options: ["Google", "Microsoft", "Facebook", "Amazon"],
+      answer: "Facebook",
+    },
+  ];
+
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showScore, setShowScore] = useState(false);
+
+  const handleAnswerClick = (option) => {
+    if (option === questions[currentQuestion].answer) {
+      setScore(score + 1);
+    }
+
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setShowScore(true);
+    }
+  };
+
+  return (
+    <div className="quiz-container">
+      <h1>Online Quiz</h1>
+
+      {showScore ? (
+        <h2>Your Score: {score} / {questions.length}</h2>
+      ) : (
+        <>
+          <h3>{questions[currentQuestion].question}</h3>
+          <div className="options">
+            {questions[currentQuestion].options.map((option, index) => (
+              <button key={index} onClick={() => handleAnswerClick(option)}>
+                {option}
+              </button>
+            ))}
+          </div>
+          <p>Score: {score}</p>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+
+App.css
+
+                                           body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;   /* Horizontal center */
+  align-items: center;       /* Vertical center */
+  background-color: #f2f2f2;
+}
+
+.quiz-container {
+  width: 400px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.options button {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.options button:hover {
+  background-color: #4caf50;
+  color: white;
+}
+
+
+
+
+
+
+                                           
