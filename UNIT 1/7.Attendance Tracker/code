@@ -1,0 +1,113 @@
+1.const attendanceList = document.getElementById("attendanceList");
+const presentCountEl = document.getElementById("presentCount");
+const absentCountEl = document.getElementById("absentCount");
+
+let studentIndex = 0;
+
+function addStudent() {
+  const nameInput = document.getElementById("studentName");
+  const name = nameInput.value.trim();
+
+  if (name === "") {
+    alert("Please enter student name");
+    return;
+  }
+
+  const row = document.createElement("tr");
+  const index = studentIndex++;
+
+  row.innerHTML = `
+    <td>${name}</td>
+    <td class="status" id="status-${index}">Not Marked</td>
+    <td>
+      <button onclick="markStatus(${index}, 'Present')">Present</button>
+      <button onclick="markStatus(${index}, 'Absent')">Absent</button>
+    </td>
+  `;
+
+  attendanceList.appendChild(row);
+  nameInput.value = "";
+}
+
+function markStatus(index, value) {
+  const statusCell = document.getElementById(`status-${index}`);
+  statusCell.textContent = value;
+
+  updateSummary();
+}
+
+function updateSummary() {
+  let present = 0;
+  let absent = 0;
+
+  document.querySelectorAll(".status").forEach(cell => {
+    if (cell.textContent === "Present") present++;
+    if (cell.textContent === "Absent") absent++;
+  });
+
+  presentCountEl.textContent = present;
+  absentCountEl.textContent = absent;
+}
+2.<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance Tracker</title>
+  <link rel="stylesheet" href="App.css">
+</head>
+<body>
+
+  <h1>📋 Attendance Tracker</h1>
+  <p>Add students and mark attendance</p>
+
+  <input type="text" id="studentName" placeholder="Enter student name">
+  <button onclick="addStudent()">Add Student</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <!-- 🔥 THIS WAS MISSING -->
+    <tbody id="attendanceList"></tbody>
+  </table>
+
+  <div class="summary">
+    <p>✅ Present: <span id="presentCount">0</span></p>
+    <p>❌ Absent: <span id="absentCount">0</span></p>
+  </div>
+
+  <script src="Script.js"></script>
+</body>
+</html>
+
+3.body {
+  font-family: Arial, sans-serif;
+  padding: 30px;
+}
+
+table {
+  width: 60%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #333;
+  padding: 10px;
+  text-align: center;
+}
+
+button {
+  margin: 5px;
+  padding: 5px 10px;
+}
+
+.summary {
+  margin-top: 20px;
+  font-size: 18px;
+}
