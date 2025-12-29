@@ -1,0 +1,133 @@
+import React, { useState } from "react";
+
+
+function App() {
+  const [reservationConfirmed, setReservationConfirmed] = useState(false);
+  const [reservationDetails, setReservationDetails] = useState({});
+
+
+  const reserveHotel = () => {
+    // 1. Welcome message
+    alert("Welcome to GrandStay Hotels!");
+
+
+    // 2. Guest Name
+    const guestName = prompt("Enter your name:");
+    if (!guestName) {
+      alert("Reservation cancelled. Name is required.");
+      return;
+    }
+
+
+    // 3. Location
+    const location = prompt("Enter hotel location (e.g., New York, London, Tokyo):");
+    if (!location) {
+      alert("Reservation cancelled. Location is required.");
+      return;
+    }
+
+
+    // 4. Room Type
+    const roomType = prompt("Enter room type (Single, Double, Suite):");
+    if (!roomType) {
+      alert("Reservation cancelled. Room type is required.");
+      return;
+    }
+
+
+    // 5. Check-in & Check-out
+    const checkIn = prompt("Enter check-in date (YYYY-MM-DD):");
+    if (!checkIn) {
+      alert("Reservation cancelled. Check-in date is required.");
+      return;
+    }
+
+
+    const checkOut = prompt("Enter check-out date (YYYY-MM-DD):");
+    if (!checkOut) {
+      alert("Reservation cancelled. Check-out date is required.");
+      return;
+    }
+
+
+    // 6. Number of Guests
+    const numGuests = prompt("Enter number of guests:");
+    if (!numGuests || isNaN(numGuests) || numGuests <= 0) {
+      alert("Invalid number of guests. Reservation cancelled.");
+      return;
+    }
+
+
+    // 7. Confirm Reservation
+    const confirmReservation = window.confirm(
+      `Please confirm your reservation:\n
+      Name: ${guestName}\n
+      Location: ${location}\n
+      Room Type: ${roomType}\n
+      Check-In: ${checkIn}\n
+      Check-Out: ${checkOut}\n
+      Guests: ${numGuests}`
+    );
+
+
+    if (confirmReservation) {
+      setReservationConfirmed(true);
+      setReservationDetails({ guestName, location, roomType, checkIn, checkOut, numGuests });
+      alert(`Thank you ${guestName}! Your reservation is confirmed.`);
+    } else {
+      setReservationConfirmed(false);
+      alert("Reservation cancelled.");
+    }
+  };
+
+
+  return (
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <h1>Hotel Reservation System</h1>
+
+
+      {!reservationConfirmed ? (
+        <button
+          onClick={reserveHotel}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#007bff",
+            color: "#fff",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          Reserve Room
+        </button>
+      ) : (
+        <div>
+          <h2>Reservation Confirmed!</h2>
+          <p>
+            {reservationDetails.guestName}, your stay at {reservationDetails.location} in a{" "}
+            {reservationDetails.roomType} room from {reservationDetails.checkIn} to{" "}
+            {reservationDetails.checkOut} for {reservationDetails.numGuests} guest(s) is confirmed.
+          </p>
+          <button
+            onClick={() => setReservationConfirmed(false)}
+            style={{
+              padding: "10px 20px",
+              backgroundColor: "#28a745",
+              color: "#fff",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Make Another Reservation
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+export default App;
+
+
